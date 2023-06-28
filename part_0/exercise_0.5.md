@@ -1,4 +1,4 @@
-## This uses Mermaid lanugage
+## This uses Mermaid language
 
 Sequence diagram for retreiving the single-page application version of ExampleApp.
 
