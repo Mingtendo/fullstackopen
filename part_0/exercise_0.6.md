@@ -11,7 +11,7 @@ sequenceDiagram
 	browser ->>+ server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
 
 	Note right of browser: redraws the page with the new note
-	Note right of browser: Request is sent as a JSON: {content: "some text here", date: "2023-06-28T..."}; executes sendToServer in spa.js
+	Note right of browser: Request is sent as a JSON: {content: "some text here", date: "2023-06-28T..."}, executes sendToServer in spa.js
 
 	server ->>+ browser: STATUS 201 - CREATED
 
