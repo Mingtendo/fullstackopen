@@ -1,7 +1,7 @@
 ## This uses Mermaid language
 
 ```mermaid
-sequence diagram;
+sequenceDiagram
 	participant browser
 	participant server
 
