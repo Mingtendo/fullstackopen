@@ -9,7 +9,7 @@ sequenceDiagram
 	browser ->>+ server: GET https://studies.cs.helsinki.fi/exampleapp/spa
 	server ->>+ browser: HTML document
 
-	Note right of the browser: browser asks server for other files referenced in HTML document
+	Note right of browser: browser asks server for other files referenced in HTML document
 
 	browser ->>+ server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
 	server ->>+ server: CSS document
@@ -20,6 +20,6 @@ sequenceDiagram
 	browser ->>+ server: GET https//studies.cs.helsinki.fi/exampleapp/data.json
 	server ->>+ browser: [{"content": "single-page text", "date": "2023-06-28"},...]
 
-	Note right of the browser: browser executes redrawNotes' callback function to render notes on the page from data.json
+	Note right of browser: browser executes redrawNotes' callback function to render notes on the page from data.json
 
 ```
