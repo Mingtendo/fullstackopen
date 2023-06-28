@@ -1,5 +1,7 @@
 ## This uses Mermaid language
 
+Note to self: just do this or go to https://mermaid.live/ to figure out how to use mermaid.
+
 ```mermaid
 sequenceDiagram
 	participant browser
