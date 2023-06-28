@@ -12,7 +12,7 @@ sequenceDiagram
 	Note right of browser: browser asks server for other files referenced in HTML document
 
 	browser ->>+ server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
-	server ->>+ server: CSS document
+	server ->>+ browser: CSS document
 
 	browser ->>+ server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
 	server ->>+ browser: JS file
