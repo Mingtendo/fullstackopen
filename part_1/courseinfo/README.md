@@ -1,3 +1,9 @@
+# About This Project
+
+## What is courseinfo?
+
+This project is part of Part 1 of FullStackOpen. It covers assignments from Part 1a to Part1d.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
