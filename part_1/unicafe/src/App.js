@@ -12,6 +12,27 @@ const Button = (props) =>
 
 const Display = props => <div>{props.text} {props.value} {props.extra}</div>
 
+const Statistics = (props) =>
+{
+	if (props.all === 0)
+	{
+		return (
+			<Display text="no feedback given"/>
+		)
+	}
+	return (
+		<div>
+			<Display text="good" value={props.good}/>
+			<Display text="neutral" value={props.neutral}/>
+			<Display text="bad" value={props.bad}/>
+			<Display text="all" value={props.all}/>
+			<Display text="average" value={props.average}/>
+			<Display text="positive" value={props.positive} extra="%"/>
+		</div>
+	)
+}
+
+
 const App = () =>
 {
 	const [good, setGood] = useState(0)
@@ -89,12 +110,7 @@ const App = () =>
 			<Button handleClick={incrementBad(bad+1)} text="bad"/>
 
 			<Header text="statistics"/>
-			<Display text="good" value={good}/>
-			<Display text="neutral" value={neutral}/>
-			<Display text="bad" value={bad}/>
-			<Display text="all" value={all}/>
-			<Display text="average" value={average}/>
-			<Display text="positive" value={positive} extra="%"/>
+			<Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive}/>
 		</div>
 	)
 }
