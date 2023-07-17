@@ -10,7 +10,7 @@ const Button = (props) =>
 	<button onClick={props.handleClick}>{props.text}</button>
 )
 
-const Display = props => <div>{props.text} {props.value}</div>
+const Display = props => <div>{props.text} {props.value} {props.extra}</div>
 
 const App = () =>
 {
@@ -94,7 +94,7 @@ const App = () =>
 			<Display text="bad" value={bad}/>
 			<Display text="all" value={all}/>
 			<Display text="average" value={average}/>
-			<Display text="positive" value={positive}/>
+			<Display text="positive" value={positive} extra="%"/>
 		</div>
 	)
 }
