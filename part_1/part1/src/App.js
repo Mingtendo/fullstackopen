@@ -1,43 +1,70 @@
 import {useState} from 'react';
 
 // React component that returns a button element.
-const Button = ({handleClick, text}) =>
+const Button = (props) =>
 (
-	<button onClick={handleClick}>
-		{text}
-	</button>
+	<button onClick={props.handleClick}>{props.text}</button>
 )
 
-const History = (props) =>
-{
-	if (props.allClicks.length === 0)
-	{
-		return (
-			<div>
-				the app is used by pressing the buttons
-			</div>
-		)
-	}
+const Display = props => <div>{props.value}</div>
 
-	return (
-		<div>
-			button press history: {props.allClicks.join(' ')}
-			<br />
-			total: {props.totals}
-		</div>
-	)
-}
-
-const App = (props) =>
+const App = () =>
 {
-	// Event Handling Revisited
+	// All below this line are a group
+	
+	// Passing Event Handlers to Child Components
 	const [value, setValue] = useState(10)
 
-	const setToValue = (newValue) => () =>
+	const setToValue = (newValue) =>
 	{
 		console.log('value now', newValue)
 		setValue(newValue)
 	}
+
+	return (
+		<div>
+			<Display value={value}/>
+			<Button handleClick={() => setToValue(1000)} text="thousand"/>
+			<Button handleClick={() => setToValue(0)} text="reset"/>
+			<Button handleClick={() => setToValue(value+1)} text="increment"/>
+		</div>
+	)
+
+	// // All below this line are a group
+	// // Event Handling Revisited
+	// // These two blocks do the exact same thing. Here, setToValue returns a function, which simplifies
+	// // syntax of React components and HTML elements.
+	// const setToValue = (newValue) => () =>
+	// {
+	// 	console.log('value now', newValue)
+	// 	setValue(newValue)
+	// }
+
+	// return (
+	// 	<div>
+	// 		{value}
+	// 		<button onClick={setToValue(1000)}>thousand</button>
+	// 		<button onClick={setToValue(0)}>zero</button>
+	// 		<button onClick={setToValue(value+1)}>increment</button>
+	// 	</div>
+	// )
+
+	// // Can do this, but we need to return a function in onClick.
+	// // const setToValue = (newValue) =>
+	// // {
+	// // 	console.log('value now', newValue)
+	// // 	setValue(newValue)
+	// // }
+
+	// // return (
+	// // 	<div>
+	// // 		{value}
+	// // 		<button onClick={() => setToValue(1000)}>thousand</button>
+	// // 		<button onClick={() => setToValue(0)}>zero</button>
+	// // 		<button onClick={() => setToValue(value+1)}>increment</button>
+	// // 	</div>
+	// // )
+	// // All above this line are a group
 
 	// // All below this line are a group
 	// // Same as commented out stuff underneath.
@@ -55,16 +82,6 @@ const App = (props) =>
 	// // 	return handler
 	// // }
 	// // All above this line are a group
-
-	return (
-		<div>
-			{value}
-			<button onClick={setToValue(1000)}>thousand</button>
-			<button onClick={setToValue(0)}>reset</button>
-			<button onClick={setToValue(value+1)}>increment</button>
-			<button onClick={setToValue(value*value)}>double</button>
-		</div>
-	)
 	
 	// // All below this line are a group
 	// const handleClick = () => 
