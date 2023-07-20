@@ -42,7 +42,7 @@ const Statistics = (props) =>
 	)
 }
 
-
+// Complete up to Exercise 1.11, the end of the Unicafe assignment. Note: 1.11 was optional at time of completion.
 const App = () =>
 {
 	const [good, setGood] = useState(0)
