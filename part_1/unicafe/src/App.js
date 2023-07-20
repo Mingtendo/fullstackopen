@@ -10,24 +10,24 @@ const Button = (props) =>
 	<button onClick={props.handleClick}>{props.text}</button>
 )
 
-const Display = props => <div>{props.text} {props.value} {props.extra}</div>
+const StatisticLine = props => <div>{props.text} {props.value} {props.extra}</div>
 
 const Statistics = (props) =>
 {
 	if (props.all === 0)
 	{
 		return (
-			<Display text="no feedback given"/>
+			<StatisticLine text="no feedback given"/>
 		)
 	}
 	return (
 		<div>
-			<Display text={"good "+props.good}/>
-			<Display text={"neutral "+props.neutral}/>
-			<Display text={"bad "+props.bad}/>
-			<Display text={"all "+props.all}/>
-			<Display text={"average "+props.average}/>
-			<Display text={"positive "+props.positive+"%"}/>
+			<StatisticLine text={"good "+props.good}/>
+			<StatisticLine text={"neutral "+props.neutral}/>
+			<StatisticLine text={"bad "+props.bad}/>
+			<StatisticLine text={"all "+props.all}/>
+			<StatisticLine text={"average "+props.average}/>
+			<StatisticLine text={"positive "+props.positive+"%"}/>
 		</div>
 	)
 }
