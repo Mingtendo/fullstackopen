@@ -43,6 +43,12 @@ const Statistics = (props) =>
 }
 
 // Complete up to Exercise 1.11, the end of the Unicafe assignment. Note: 1.11 was optional at time of completion.
+
+/*
+Typical source of an error "Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist." 
+is Chrome extensions. Try going to chrome://extensions/ and try disabling them one by one and refreshing React app page; 
+the error should eventually disappear.
+*/
 const App = () =>
 {
 	const [good, setGood] = useState(0)
