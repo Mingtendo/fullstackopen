@@ -27,7 +27,7 @@ const Statistics = (props) =>
 			<Display text="bad" value={props.bad}/>
 			<Display text="all" value={props.all}/>
 			<Display text="average" value={props.average}/>
-			<Display text="positive" value={props.positive} extra="%"/>
+			<Display text={"positive "+props.positive+"%"}/>
 		</div>
 	)
 }
