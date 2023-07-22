@@ -15,16 +15,29 @@ const App = () =>
 	]
 
 	const [selected, setSelected] = useState(0)
+	const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
 
 	const newQuote = () => () =>
 	{
 		setSelected(Math.floor(Math.random()*anecdotes.length))
 	}
 
+	const vote = (quote) => () =>
+	{
+		const copy = [...votes]
+		copy[quote] += 1
+		const newCount = copy[quote]+1
+		console.log("Votes for quote "+quote+" increased by one: "+ newCount)
+		setVotes(copy)
+	}
+
 	return (
 		<div>
 			{anecdotes[selected]}
 			<br/>
+			has {votes[selected]} votes
+			<br/>
+			<button onClick={vote(selected)}>vote</button>
 			<button onClick={newQuote()}>next anecdote</button>
 		</div>
 	)
