@@ -18,12 +18,13 @@ const App = () =>
 
 	const newQuote = () => () =>
 	{
-		setSelected(Math.floor(Math.random()*anecdotes.length()))
+		setSelected(Math.floor(Math.random()*anecdotes.length))
 	}
 
 	return (
 		<div>
 			{anecdotes[selected]}
+			<br/>
 			<button onClick={newQuote()}>next anecdote</button>
 		</div>
 	)
