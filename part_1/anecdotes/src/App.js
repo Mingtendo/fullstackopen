@@ -16,29 +16,56 @@ const App = () =>
 
 	const [selected, setSelected] = useState(0)
 	const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+	const [mostVoted, setMostVoted] = useState(0)
 
 	const newQuote = () => () =>
 	{
 		setSelected(Math.floor(Math.random()*anecdotes.length))
+		fetchMax()
+	}
+
+	const fetchMax = () =>
+	{
+		let max = 0
+		let maxIndex = 0
+
+		for (let i = 0; i < votes.length; i++)
+		{
+			if (votes[i] > max)
+			{
+				max = votes[i]
+				maxIndex = i
+			}
+		}
+		console.log("New most upvoted quote is: "+maxIndex)
+		setMostVoted(maxIndex)
 	}
 
 	const vote = (quote) => () =>
 	{
 		const copy = [...votes]
-		copy[quote] += 1
 		const newCount = copy[quote]+1
+		copy[quote] += 1
 		console.log("Votes for quote "+quote+" increased by one: "+ newCount)
 		setVotes(copy)
+		fetchMax()
 	}
 
 	return (
 		<div>
+			<h1>Anecdote of the Day</h1>
 			{anecdotes[selected]}
 			<br/>
 			has {votes[selected]} votes
 			<br/>
 			<button onClick={vote(selected)}>vote</button>
 			<button onClick={newQuote()}>next anecdote</button>
+			<br/>
+
+			<h1>Anecdote with most votes</h1>
+			{anecdotes[mostVoted]}
+			<br/>
+			has {votes[mostVoted]} votes
 		</div>
 	)
 }
