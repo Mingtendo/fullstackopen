@@ -37,7 +37,7 @@ const App = () =>
 				maxIndex = i
 			}
 		}
-		console.log("New most upvoted quote is: "+maxIndex)
+		console.log("New most upvoted quote is: "+maxIndex+" with "+max+" votes.")
 		setMostVoted(maxIndex)
 	}
 
