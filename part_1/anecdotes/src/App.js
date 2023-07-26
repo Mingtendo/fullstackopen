@@ -17,28 +17,23 @@ const App = () =>
 	const [selected, setSelected] = useState(0)
 	const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
 	const [mostVoted, setMostVoted] = useState(0)
+	const [highestVoteCount, setHighestVoteCount] = useState(0)
 
 	const newQuote = () => () =>
 	{
 		setSelected(Math.floor(Math.random()*anecdotes.length))
-		fetchMax()
+		
 	}
 
-	const fetchMax = () =>
+	const fetchMax = (id, voteCount) =>
 	{
-		let max = 0
-		let maxIndex = 0
-
-		for (let i = 0; i < votes.length; i++)
+		if (voteCount > highestVoteCount)
 		{
-			if (votes[i] > max)
-			{
-				max = votes[i]
-				maxIndex = i
-			}
+			setMostVoted(id)
+			setHighestVoteCount(voteCount)
 		}
-		console.log("New most upvoted quote is: "+maxIndex+" with "+max+" votes.")
-		setMostVoted(maxIndex)
+		console.log("New most upvoted quote is: "+voteCount+" with "+votes[id]+" votes.")
+		console.log("Debug, mostVoted: "+mostVoted+", highestVoteCount: "+highestVoteCount)
 	}
 
 	const vote = (quote) => () =>
@@ -48,7 +43,7 @@ const App = () =>
 		copy[quote] += 1
 		console.log("Votes for quote "+quote+" increased by one: "+ newCount)
 		setVotes(copy)
-		fetchMax()
+		fetchMax(quote, newCount)
 	}
 
 	return (
