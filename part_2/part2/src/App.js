@@ -1,8 +1,9 @@
-const App = (props) =>
-{
-	const {notes} = props
+import Note from "./components/Note"
 
-	console.log('props value is', props)
+const App = ({notes}) =>
+{
+
+	console.log('notes value is', notes)
 
 	// Items in a list must have a unique ID, or key attribute.
 	return (
@@ -10,9 +11,7 @@ const App = (props) =>
 			<h1>Notes</h1>
 			<ul>
 				{notes.map((note) => 
-					<li key={note.id}>
-						{note.content}
-					</li>
+					<Note key={note.id} note={note} />
 				)}
 			</ul>
 		</div>
