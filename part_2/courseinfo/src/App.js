@@ -6,18 +6,18 @@ const Header = ({ header }) =>
 	)
 }
 const Part = ({ part }) => 
-	<li>
+	<p>
     	{part.name} {part.exercises}
-  	</li>
+  	</p>
 
 const Content = ({content}) =>
 {
 	return (
-		<ul>
+		<div>
 			{content.map((note) =>
 				<Part key={note.id} part={note}/>
 			)}
-		</ul>
+		</div>
 	)
 }
 
