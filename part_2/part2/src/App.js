@@ -24,6 +24,7 @@ const App = (props) =>
 		setNewNote('')
 	}
 
+	// Changes the value of newNote, which is the value in the input bar everytime something is removed or added
 	const handleNoteChange = (event) =>
 	{
 		console.log(event.target.value)
