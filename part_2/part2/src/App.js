@@ -31,8 +31,6 @@ const App = (props) =>
 		setNewNote(event.target.value)
 	}
 
-	// Some garbage text to see if I've fixed the Github fuckery.
-
 	// Items in a list must have a unique ID, or key attribute.
 	return (
 		<div>
