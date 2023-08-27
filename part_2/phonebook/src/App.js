@@ -19,14 +19,25 @@ const App = () =>
 		event.preventDefault()
 		console.log('button clicked, adding name', event.target)
 
-		const personObject =
+		const personObject = 
 		{
 			name: newName
 		}
 
-		setPersons(persons.concat(personObject))
-		setNewName('')
+		// Checks if the person is in the array. If they aren't, add them. 
+		if (persons.findIndex((person) => person.name === personObject.name) === -1)
+		{
+			setPersons(persons.concat(personObject))
+			setNewName('')
+		}
+		// If they are, send an alert that they are already in the phonebook.
+		else
+		{
+			alert(`${newName} is already added to the phonebook`)
+		}
+		
 	}
+
 	const handleNameChange = (event) =>
 	{
 		console.log(event.target.value)
