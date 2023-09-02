@@ -1,5 +1,14 @@
 import { useState } from "react"
 
+const Filter = (props) =>
+{
+	return (
+		<div>
+			filter shown with <input value={props.value} onChange={props.handler} />
+		</div>
+	)
+}
+
 const Person = ({data}) =>
 {
 	return (
@@ -78,12 +87,10 @@ const App = () =>
 	return (
 		<div>
 			<h2>Phonebook</h2>
-			<div>
-				filter shown with <input value={search} onChange={handleSearch} />
-			</div>
+			<Filter value={search} handler={handleSearch} />
 			<form onSubmit={addName}>
 				<div>
-					name: <input value={newName} onChange={handleNameChange}/>
+					name: <input value={newName} onChange={handleNameChange} />
 				</div>
 				<div>
 					number: <input value={newNumb} onChange={handleNumbChange} />
