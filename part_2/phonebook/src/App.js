@@ -1,11 +1,38 @@
 import { useState } from "react"
 
+const Field = (props) =>
+{
+	return (
+		<input value={props.value} onChange={props.handler} />
+	)
+}
+
 const Filter = (props) =>
 {
 	return (
 		<div>
-			filter shown with <input value={props.value} onChange={props.handler} />
+			filter shown with: <Field value={props.value} handler={props.handler} />
 		</div>
+	)
+}
+
+const PersonForm = (props) =>
+{
+	return (
+		<form onSubmit={props.submitFunc}>
+			<div>
+				name: <Field value={props.varName} handler={props.nameChangeFunc} />
+			</div>
+			<div>
+				number: <Field value={props.varNumb} handler={props.numbChangeFunc} />
+			</div>
+			<div>newName: {props.varName}</div>
+			<div>newNumb: {props.varNumb}</div>
+			<div>id: {props.varIDCount}</div>
+			<div>
+				<button type="submit">add</button>
+			</div>
+		</form>
 	)
 }
 
@@ -87,21 +114,12 @@ const App = () =>
 	return (
 		<div>
 			<h2>Phonebook</h2>
+			
 			<Filter value={search} handler={handleSearch} />
-			<form onSubmit={addName}>
-				<div>
-					name: <input value={newName} onChange={handleNameChange} />
-				</div>
-				<div>
-					number: <input value={newNumb} onChange={handleNumbChange} />
-				</div>
-				<div>newName: {newName}</div>
-				<div>newNumb: {newNumb}</div>
-				<div>id: {idCount}</div>
-				<div>
-					<button type="submit">add</button>
-				</div>
-			</form>
+
+			<PersonForm submitFunc={addName} varName={newName} varNumb={newNumb} varIDCount={idCount}
+			nameChangeFunc={handleNameChange} numbChangeFunc={handleNumbChange} />
+
 			<h2>Numbers</h2>
 			<ul>
 				{persons.filter((person) => 
