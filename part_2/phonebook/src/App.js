@@ -43,6 +43,22 @@ const Person = ({data}) =>
 	)
 }
 
+const PersonsList = (props) =>
+{
+	return (
+		<ul>
+			{props.data.filter((person) => 
+				{
+					return person.name.toLowerCase().includes(props.query.toLowerCase()) === true
+				}).map((person) =>
+				{
+					return <Person key={person.id} data={person} />
+			}
+			)}
+		</ul>
+	)
+}
+
 const App = () =>
 {
 	const [persons, setPersons] = useState([
@@ -121,16 +137,8 @@ const App = () =>
 			nameChangeFunc={handleNameChange} numbChangeFunc={handleNumbChange} />
 
 			<h2>Numbers</h2>
-			<ul>
-				{persons.filter((person) => 
-					{
-						return person.name.toLowerCase().includes(search.toLowerCase()) === true
-				 	}).map((person) =>
-					{
-						return <Person key={person.id} data={person} />
-					}
-				)}
-			</ul>
+			
+			<PersonsList data={persons} query={search}/>
 		</div>
 	)
 }
