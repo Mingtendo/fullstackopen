@@ -3,22 +3,32 @@
     {
       "id": 1,
       "content": "HTML is easy",
-      "important": true
+      "important": false
     },
     {
       "id": 2,
       "content": "Browser can execute only JavaScript",
-      "important": false
+      "important": true
     },
     {
       "id": 3,
       "content": "GET and POST are the most important methods of HTTP protocol",
-      "important": true
+      "important": false
     },
     {
       "content": "makin' a note 'ere",
       "important": true,
       "id": 4
+    },
+    {
+      "content": "My fourth note was permanently saved!",
+      "important": true,
+      "id": 5
+    },
+    {
+      "content": "Testing after moving REST services",
+      "important": true,
+      "id": 6
     }
   ]
 }

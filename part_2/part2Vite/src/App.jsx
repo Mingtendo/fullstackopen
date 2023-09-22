@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import Note from "./components/Note"
+import noteService from './services/notes'
 
 const App = () =>
 {
@@ -9,15 +10,15 @@ const App = () =>
 	const [showAll, setShowAll] = useState(true)
 
 	// Fetches data from server upon startup, and every time something is re-rendered thereafter (component update, etc)
+	// Uses functions exported from './services/notes'
 	const hook = () =>
 	{
-		console.log('effect')
-		axios
-			.get('http://localhost:3001/notes')
-			.then(response => 
+		console.log('getting all info')
+		noteService
+			.getAll()
+			.then(initialNotes => 
 			{
-				console.log('promise fulfilled')
-				setNotes(response.data)
+				setNotes(initialNotes)
 			})
 	}
 
@@ -26,15 +27,16 @@ const App = () =>
 
 	const toggleImportanceOf = (id) =>
 	{
-		const url = `http://localhost:3001/notes/${id}`
 		const note = notes.find(n => n.id === id)
 		const changedNote = {...note, important: !note.important}
 		console.log(`importance of ${id} needs to be toggled`)
 
-		axios.put(url, changedNote).then(response => 
-		{
-			setNotes(notes.map(n => n.id !== id ? n : response.data))
-		})
+		noteService
+			.update(id, changedNote)
+			.then(returnedNote =>
+			{
+				setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+			})
 	}
 
 	// Adds a note to the server, then fetches the list of notes from the server
@@ -50,12 +52,11 @@ const App = () =>
 			important: Math.random() < 0.5
 		}
 
-		axios
-			.post('http://localhost:3001/notes', noteObject)
-			.then(response =>
+		noteService
+			.create(noteObject)
+			.then(returnedNote =>
 			{
-				console.log(response)
-				setNotes(notes.concat(response.data))
+				setNotes(notes.concat(returnedNote))
 				setNewNote('')
 			})
 	}
