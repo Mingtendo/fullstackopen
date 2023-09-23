@@ -29,6 +29,11 @@
       "content": "Testing after moving REST services",
       "important": true,
       "id": 6
+    },
+    {
+      "content": "Code works on Mac! :D",
+      "important": true,
+      "id": 7
     }
   ]
 }
