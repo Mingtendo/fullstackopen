@@ -1,5 +1,5 @@
 import axios from "axios"
-const baseURL = "http://localhost:3001/notes"
+const baseURL = "http://localhost:3001/notes"	// Where notes are stored on JSON server.
 
 
 // Promises are assigned to a request variable. Then, only the response data is returned to App, since that's

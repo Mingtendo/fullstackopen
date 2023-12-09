@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react'
-import axios from 'axios'
 import Note from "./components/Note"
 import noteService from './services/notes'
 
@@ -22,15 +21,19 @@ const App = () =>
 			})
 	}
 
+	// Calls the hook and any potential arguments needed to be used in the hook on refresh/component update.
 	useEffect(hook, [])
 	console.log('render', notes.length, 'notes')
 
+	// Event handler which toggles importance of a specific note by ID.
 	const toggleImportanceOf = (id) =>
 	{
-		const note = notes.find(n => n.id === id)
-		const changedNote = {...note, important: !note.important}
+		const note = notes.find(n => n.id === id)					// Find note with same ID in list.
+		const changedNote = {...note, important: !note.important}	// Unpackage the note, and flip boolean.
 		console.log(`importance of ${id} needs to be toggled`)
 
+		// Update the note in the server and reflect changes on client.
+		// If we try to update a deleted note, filter it out and reflect change on client.
 		noteService
 			.update(id, changedNote)
 			.then(returnedNote =>
@@ -73,6 +76,7 @@ const App = () =>
 		setNewNote(event.target.value)
 	}
 
+	// Variable which stores boolean of whether to show all notes or just notes marked 'Important'.
 	const notesToShow = showAll
 		? notes
 		: notes.filter(note => note.important === true)
