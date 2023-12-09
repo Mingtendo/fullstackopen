@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
+import serverService from './services/phonebook'	// Can name the import whatever you want.
 
 const Field = (props) =>
 {
@@ -71,12 +72,12 @@ const App = () =>
 	const hook = () =>
 	{
 		console.log('effect')
-		axios
-			.get('http://localhost:3001/persons')
-			.then(response =>
+		serverService
+			.getAll()
+			.then(allPeople =>
 			{
 				console.log('promise fulfilled')
-				setPersons(response.data)
+				setPersons(allPeople)
 			})
 	}
 
@@ -97,7 +98,12 @@ const App = () =>
 		// Checks if the person is in the array. If they aren't, add them. 
 		if (persons.findIndex((person) => person.name === personObject.name) === -1)
 		{
-			setPersons(persons.concat(personObject))
+			serverService
+				.create(personObject)
+				.then(returnedPerson => 
+				{
+					setPersons(persons.concat(returnedPerson))
+				})
 			setNewName('')
 			setNewNumb('')
 			setIDCount(idCount+1)
