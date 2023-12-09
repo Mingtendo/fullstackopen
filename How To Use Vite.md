@@ -25,3 +25,9 @@ There are some differences when using Vite.
 
 1. CRA creates an `index.js` file, while Vite creates a `main.jsx` file. For all intents and purposes, they are the same. On the same note, CRA creates `App.js` while Vite creates `App.jsx`.
 2. CRA creates an application on localhost port 3000, while Vite uses localhost port 5173.
+
+## Starting Dev Server
+
+1. Make sure you have `"server": "json-server --port 3001 --watch db.json"` in the `package.json` file. Make sure a db.json already exists or this will fail.
+2. Then, navigate to the directory that contains that file (where `node_modules` is installed) and in the terminal type `npm run server`.
+3. Alternatively just type `json-server --port 3001 --watch db.json` into the terminal.
