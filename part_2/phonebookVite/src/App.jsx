@@ -97,15 +97,17 @@ const App = () =>
 		event.preventDefault()
 		console.log('button clicked, adding name', event.target)
 
-		const personObject = 
+		let personObject = 
 		{
 			name: newName,
 			number: newNumb,
 			id: idCount
 		}
 
+		const existingPersonIndex = persons.findIndex((person) => person.name === personObject.name)
+
 		// Checks if the person is in the array. If they aren't, add them. 
-		if (persons.findIndex((person) => person.name === personObject.name) === -1)
+		if (existingPersonIndex === -1)
 		{
 			serverService
 				.create(personObject)
@@ -120,7 +122,23 @@ const App = () =>
 		// If they are, send an alert that they are already in the phonebook.
 		else
 		{
-			alert(`${newName} is already added to the phonebook`)
+			if (window.confirm(`${newName} is already added to the phonebook. Do you want to change their number?`))
+			{
+				const existingPerson = persons[existingPersonIndex]
+				personObject.id = existingPerson.id
+
+				serverService
+					.update(personObject.id, personObject)
+					.then((returnedPerson) =>
+					{
+						setPersons(persons.map(p => p.id !== personObject.id ? p : returnedPerson))
+					})
+					.catch((error) =>
+					{
+						alert(`The person '${personObject.name}' was already deleted from the server.`)
+						setPersons(persons.filter(p => p.id !== personObject.id))
+					})
+			}
 		}
 		
 	}
