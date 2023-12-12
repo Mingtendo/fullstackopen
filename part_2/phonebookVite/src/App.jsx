@@ -38,10 +38,14 @@ const PersonForm = (props) =>
 	)
 }
 
-const Person = ({data}) =>
+const Person = ({data, deleteEntry}) =>
 {
 	return (
-		<li>{data.name} {data.number}</li>
+		<li>
+			{data.name} &nbsp; 
+			{data.number} &nbsp;
+			<button onClick={deleteEntry}>delete</button>
+		</li>
 	)
 }
 
@@ -53,9 +57,11 @@ const PersonsList = (props) =>
 				{
 					return person.name.toLowerCase().includes(props.query.toLowerCase()) === true
 				}).map((person) =>
-				{
-					return <Person key={person.id} data={person} />
-			}
+				<Person 
+					key={person.id} 
+					data={person} 
+					deleteEntry={() => props.deleteFunc(person.id)}
+				/>
 			)}
 		</ul>
 	)
@@ -116,6 +122,22 @@ const App = () =>
 		
 	}
 
+	const deleteName = (id) =>
+	{
+		const personToDelete = persons.find(n => n.id === id)
+
+		// Tells server to delete person with specific ID.
+		serverService
+			.deleteEntry(id)
+		serverService
+			.getAll()
+			.then(allPeople =>
+			{
+				console.log(`Refreshed all people`)
+				setPersons(allPeople)
+			})
+	}
+
 	const handleNameChange = (event) =>
 	{
 		console.log(event.target.value)
@@ -145,7 +167,7 @@ const App = () =>
 
 			<h2>Numbers</h2>
 			
-			<PersonsList data={persons} query={search}/>
+			<PersonsList data={persons} query={search} deleteFunc={deleteName}/>
 		</div>
 	)
 }
