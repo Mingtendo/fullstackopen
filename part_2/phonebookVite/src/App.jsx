@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import axios from 'axios'
+import axios, { all } from 'axios'
 import serverService from './services/phonebook'	// Can name the import whatever you want.
 
 const Field = (props) =>
@@ -72,7 +72,7 @@ const App = () =>
 	const [persons, setPersons] = useState([])
 	const [newName, setNewName] = useState('')
 	const [newNumb, setNewNumb] = useState('')
-	const [idCount, setIDCount] = useState(5)
+	const [idCount, setIDCount] = useState(persons.length)
 	const [search, setSearch] = useState('')
 
 	const hook = () =>
@@ -84,10 +84,13 @@ const App = () =>
 			{
 				console.log('promise fulfilled')
 				setPersons(allPeople)
+				setIDCount(persons.length+1)
+				//console.log(`idCount after setPersons: ${idCount}`)
 			})
 	}
 
-	useEffect(hook, [])
+	//console.log(`idCount before hook: ${idCount}`)
+	useEffect(hook, [idCount]) // idCount's value will be one more than persons' length.
 
 	const addName = (event) =>
 	{
@@ -127,15 +130,18 @@ const App = () =>
 		const personToDelete = persons.find(n => n.id === id)
 
 		// Tells server to delete person with specific ID.
-		serverService
-			.deleteEntry(id)
-		serverService
-			.getAll()
-			.then(allPeople =>
-			{
-				console.log(`Refreshed all people`)
-				setPersons(allPeople)
-			})
+		if (window.confirm(`Are you sure you want to delete ${personToDelete.name}?`))
+		{
+			serverService
+				.deleteEntry(id)
+				.then((response) =>
+				{
+					console.log(`Response after deletion: ${response}`)
+					const remainingPeople = persons.filter(p => p.id != id)
+					setPersons(remainingPeople)
+					setIDCount(remainingPeople.length)
+				})
+		}
 	}
 
 	const handleNameChange = (event) =>
