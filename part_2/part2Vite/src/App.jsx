@@ -1,12 +1,15 @@
 import {useState, useEffect} from 'react'
 import Note from "./components/Note"
-import noteService from './services/notes'
+import Notification from "./components/Notification"
+import Footer from "./components/Footer"
+import noteService from "./services/notes"
 
 const App = () =>
 {
 	const [notes, setNotes] = useState([])
 	const [newNote, setNewNote] = useState('')
 	const [showAll, setShowAll] = useState(true)
+	const [errorMessage, setErrorMessage] = useState(null)
 
 	// Fetches data from server upon startup, and every time something is re-rendered thereafter (component update, etc)
 	// Uses functions exported from './services/notes'
@@ -23,7 +26,7 @@ const App = () =>
 
 	// Calls the hook and any potential arguments needed to be used in the hook on refresh/component update.
 	useEffect(hook, [])
-	console.log('render', notes.length, 'notes')
+	console.log(`rendered ${notes.length} notes: ${notes}`)
 
 	// Event handler which toggles importance of a specific note by ID.
 	const toggleImportanceOf = (id) =>
@@ -42,7 +45,12 @@ const App = () =>
 			})
 			.catch((error) =>
 			{
-				alert(`The note '${note.content}' was already deleted from the server.`)
+				setErrorMessage(`Note '${note.content}' was already removed from server`)
+				// After 5 seconds, set error message to nothing.
+				setTimeout(() =>
+				{
+					setErrorMessage(null)
+				}, 5000)
 				setNotes(notes.filter(n => n.id !== id))
 			})
 	}
@@ -85,11 +93,15 @@ const App = () =>
 	return (
 		<div>
 			<h1>Notes</h1>
+			
+			<Notification message={errorMessage} />
+			
 			<div>
 				<button onClick={() => setShowAll(!showAll)}>
 					show {showAll ? 'important' : 'all'}
 				</button>
 			</div>
+			
 			<ul>
 				{notesToShow.map((note) => 
 					<Note 
@@ -99,6 +111,7 @@ const App = () =>
 					/>
 				)}
 			</ul>
+			
 			<form onSubmit={addNote}>
 				<input 
 					value={newNote}
@@ -106,6 +119,8 @@ const App = () =>
 				/>
 				<button type='submit'>save</button>
 			</form>
+
+			<Footer />
 		</div>
 	)
 }

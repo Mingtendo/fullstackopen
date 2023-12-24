@@ -32,7 +32,7 @@
     },
     {
       "content": "Code works on Mac! :D",
-      "important": true,
+      "important": false,
       "id": 7
     }
   ]
