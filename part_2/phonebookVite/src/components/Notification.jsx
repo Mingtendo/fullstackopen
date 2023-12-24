@@ -2,34 +2,11 @@ const Notification = ({message}) =>
 {
 	if (message  === null)
 	{
-		console.log(`Nothing to print`)
+		console.log(`notifMessage has value null; no notification needed.`)
 		return null
 	}
 
-	/*
-	const messageToDeclare = String(message)
-	if (messageToDeclare.startsWith("Added", 0) || messageToDeclare.startsWith("Changed"))
-	{
-		const addedStyle = 
-		{
-			color: 'green',
-			background: 'lightgrey',
-			fontSize: 20,
-			borderStyle: 'solid',
-			borderRadius: 5,
-			padding: 10,
-			marginBottom: 10
-		}
-
-		return (
-			<div style={addedStyle}>
-				{message}
-			</div>
-		)
-	}
-	*/
-
-	const addedStyle = 
+	let notifStyle =
 	{
 		color: 'green',
 		background: 'lightgrey',
@@ -40,12 +17,17 @@ const Notification = ({message}) =>
 		marginBottom: 10
 	}
 
+	const messageToDeclare = String(message)
+	if (messageToDeclare.includes("was already deleted"))
+	{
+		notifStyle.color = 'red'
+	}
+
 	return (
-		<div style={addedStyle}>
+		<div style={notifStyle}>
 			{message}
 		</div>
 	)
-
 }
 
 export default Notification

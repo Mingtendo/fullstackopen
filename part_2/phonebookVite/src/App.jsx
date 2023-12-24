@@ -85,7 +85,11 @@ const App = () =>
 					})
 					.catch((error) =>
 					{
-						alert(`The person '${personObject.name}' was already deleted from the server.`)
+						setnotifMessage(`Information of '${personObject.name}' was already deleted from the server.`)
+						setTimeout(() =>
+						{
+							setnotifMessage(null)
+						}, 5000)
 						setPersons(persons.filter(p => p.id !== personObject.id))
 					})
 			}
@@ -108,6 +112,14 @@ const App = () =>
 					const remainingPeople = persons.filter(p => p.id != id)
 					setPersons(remainingPeople)
 					setIDCount(remainingPeople.length)
+				})
+				.catch((error) =>
+				{
+					setnotifMessage(`Information of ${personToDelete.name} was already deleted.`)
+					setTimeout(() =>
+					{
+						setnotifMessage(null)
+					}, 5000)
 				})
 		}
 	}

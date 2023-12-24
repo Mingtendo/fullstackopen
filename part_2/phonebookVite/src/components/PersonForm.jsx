@@ -12,7 +12,7 @@ const PersonForm = (props) =>
 			</div>
 			<div>newName: {props.varName}</div>
 			<div>newNumb: {props.varNumb}</div>
-			<div>id: {props.varIDCount}</div>
+			<div>Next ID: {props.varIDCount}</div>
 			<div>
 				<button type="submit">add</button>
 			</div>
