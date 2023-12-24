@@ -3,6 +3,7 @@ import serverService from './services/phonebook'	// Can name the import whatever
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import PersonsList from "./components/PersonsList"
+import Notification from "./components/Notification"
 
 
 const App = () =>
@@ -12,6 +13,7 @@ const App = () =>
 	const [newNumb, setNewNumb] = useState('')
 	const [idCount, setIDCount] = useState(persons.length)
 	const [search, setSearch] = useState('')
+	const [notifMessage, setnotifMessage] = useState(null)
 
 	const hook = () =>
 	{
@@ -52,6 +54,11 @@ const App = () =>
 				.then(returnedPerson => 
 				{
 					setPersons(persons.concat(returnedPerson))
+					setnotifMessage(`Added ${personObject.name}`)
+					setTimeout(() =>
+					{
+						setnotifMessage(null)
+					}, 5000)
 				})
 			setNewName('')
 			setNewNumb('')
@@ -70,6 +77,11 @@ const App = () =>
 					.then((returnedPerson) =>
 					{
 						setPersons(persons.map(p => p.id !== personObject.id ? p : returnedPerson))
+						setnotifMessage(`Updated ${existingPerson.name}`)
+						setTimeout(() =>
+						{
+							setnotifMessage(null)
+						}, 5000)
 					})
 					.catch((error) =>
 					{
@@ -121,6 +133,8 @@ const App = () =>
 	return (
 		<div>
 			<h2>Phonebook</h2>
+
+			<Notification message={notifMessage} />
 			
 			<Filter value={search} handler={handleSearch} />
 
