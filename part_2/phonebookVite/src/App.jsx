@@ -1,70 +1,9 @@
 import { useEffect, useState } from "react"
 import serverService from './services/phonebook'	// Can name the import whatever you want.
+import Filter from "./components/Filter"
+import PersonForm from "./components/PersonForm"
+import PersonsList from "./components/PersonsList"
 
-const Field = (props) =>
-{
-	return (
-		<input value={props.value} onChange={props.handler} />
-	)
-}
-
-const Filter = (props) =>
-{
-	return (
-		<div>
-			filter shown with: <Field value={props.value} handler={props.handler} />
-		</div>
-	)
-}
-
-const PersonForm = (props) =>
-{
-	return (
-		<form onSubmit={props.submitFunc}>
-			<div>
-				name: <Field value={props.varName} handler={props.nameChangeFunc} />
-			</div>
-			<div>
-				number: <Field value={props.varNumb} handler={props.numbChangeFunc} />
-			</div>
-			<div>newName: {props.varName}</div>
-			<div>newNumb: {props.varNumb}</div>
-			<div>id: {props.varIDCount}</div>
-			<div>
-				<button type="submit">add</button>
-			</div>
-		</form>
-	)
-}
-
-const Person = ({data, deleteEntry}) =>
-{
-	return (
-		<li>
-			{data.name} &nbsp; 
-			{data.number} &nbsp;
-			<button onClick={deleteEntry}>delete</button>
-		</li>
-	)
-}
-
-const PersonsList = (props) =>
-{
-	return (
-		<ul>
-			{props.data.filter((person) => 
-				{
-					return person.name.toLowerCase().includes(props.query.toLowerCase()) === true
-				}).map((person) =>
-				<Person 
-					key={person.id} 
-					data={person} 
-					deleteEntry={() => props.deleteFunc(person.id)}
-				/>
-			)}
-		</ul>
-	)
-}
 
 const App = () =>
 {

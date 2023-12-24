@@ -1,29 +1,9 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "302-409-7816",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Jimmy James",
-      "number": "302-409-7816",
-      "id": 4
-    },
-    {
       "name": "Steven Jobless",
-      "number": "58-282-1489",
-      "id": 5
+      "number": "201-394-5938",
+      "id": 1
     }
   ]
 }
