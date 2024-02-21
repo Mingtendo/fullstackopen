@@ -1,16 +1,23 @@
 const CountryMany = (props) =>
 {
     return (
-        <li>
-            {props.name}
-        </li>
+        <div>
+            {props.name} <br />
+        </div>
     )
 }
 
 const CountryDetails = (props) =>
 {
     return (
+        <>
         <h3>{props.country.name}</h3>
+        <div>
+            capital: {props.country.capitals} <br />
+            area: {props.country.area} <br />
+        </div>
+        </>
+        
     )
 }
 
@@ -48,11 +55,11 @@ const DisplayCountries = (props) =>
     else if (props.countries.length === 1)
     {
         console.log("Displaying all basic info")
-        /*
+        
         return (
             <CountryDetails country={props.countries[0]} />
         )
-        */
+       
     }
     else
     {
