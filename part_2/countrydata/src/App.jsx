@@ -1,11 +1,11 @@
 import React, {useEffect, useState } from 'react'
 import SearchBar from './components/SearchBar'
-import DisplayCountries from './components/DisplayCountries'
+import DisplayCountries from './components/DisplayCountries.jsx'
 import ServerService from './services/server'
 
 const App = () => 
 {
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState("")
     const [allCountries, setAllCountries] = useState([])
     const [searchedCountries, setSearchedCountries] = useState([])
 
@@ -17,12 +17,12 @@ const App = () =>
             .then((countryData) =>
             {
                 const countriesRawData = countryData
-                console.log(countriesRawData)
+                //console.log(countriesRawData)
                 const countriesNecessaryData = countriesRawData.map((c) =>
                 {
-                    console.dir(c)
-                    console.log(c.name.common)
-                    console.log(c.capital)
+                    //console.dir(c)
+                    //console.log(c.name.common)
+                    //console.log(c.capital)
                     const Country =
                     {
                         name: c.name.common,
@@ -38,23 +38,28 @@ const App = () =>
             })
     }
 
+    console.log(`search's value after: ${search}`)
     useEffect(hook, [])
 
     const handleSearch = (event) =>
     {
-        console.log(event.target.value)
+        console.log(`Typed: ${event.target.value}`)
+        console.log(`search: ${search}`)
         setSearch(event.target.value)
-        console.log(allCountries)
+        console.log(searchedCountries)
         queryCountries()
     }
     
     // Look for all countries that contain the string that was entered.
     const queryCountries = () =>
     {
-        const matchingCountries = allCountries.map((c) => 
+        console.log(`search's value when querying: ${search}`)
+        // Using filter is what's needed. Array.map() creates a new array
+        // based on the return value of the callback function.
+        const matchingCountries = allCountries.filter((c) => 
         {
-            console.log(c)
-            c.name.toLowerCase().includes(search.toLowerCase()) === true
+            //console.log(c)
+            return c.name.toLowerCase().includes(search.toLowerCase())
         })
         setSearchedCountries(matchingCountries)
     }

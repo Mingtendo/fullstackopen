@@ -80,7 +80,8 @@ const App = () =>
 	// Changes the value of newNote, which is the value in the input bar everytime something is removed or added
 	const handleNoteChange = (event) =>
 	{
-		console.log(event.target.value)
+		console.log(`typed: ${event.target.value}`)
+        console.log(`newNote value: ${newNote}`)
 		setNewNote(event.target.value)
 	}
 
