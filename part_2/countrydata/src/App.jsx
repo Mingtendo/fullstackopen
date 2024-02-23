@@ -56,11 +56,12 @@ const App = () =>
 
     const handleSearch = (event) =>
     {
+        const typedIn = String(event.target.value)
         // console.log(`Typed: ${event.target.value}`)
         // console.log(`search: ${search}`)
-        setSearch(event.target.value)
+        setSearch(typedIn)
         // console.log(searchedCountries)
-        queryCountries(event.target.value)  // So that we don't lag behind by using search's state.
+        queryCountries(typedIn)  // So that we don't lag behind by using search's state.
     }
     
     // Look for all countries that contain the string that was entered.
@@ -68,7 +69,7 @@ const App = () =>
     {
         let newQuery = String(query)
         const queryLength = newQuery.length
-        console.log(`last character in query is: ${newQuery[queryLength-1]}`)
+        // console.log(`last character in query is: ${newQuery[queryLength-1]}`)
 
         let matchingCountries = []
         if (newQuery[queryLength-1] === '\\')
