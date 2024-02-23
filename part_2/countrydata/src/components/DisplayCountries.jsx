@@ -17,7 +17,7 @@ const CountryDetails = (props) =>
             area: {props.country.area} <br />
         </div>
         <div>
-            languages: <br />
+            <h4>languages: </h4>
             <ul>
                 {
                     props.country.languages.map((lan) =>

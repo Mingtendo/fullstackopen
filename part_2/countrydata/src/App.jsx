@@ -20,10 +20,10 @@ const App = () =>
                 console.log(countriesRawData)
                 const countriesNecessaryData = countriesRawData.map((c) =>
                 {
-                    //console.dir(c)
-                    console.log(c.name.common)
-                    //console.log(c.capital)
-                    console.log(c.languages)
+                    // console.dir(c)
+                    // console.log(c.name.common)
+                    // console.log(c.capital)
+                    // console.log(c.languages)
 
                     let spoken = []
                     
@@ -34,7 +34,7 @@ const App = () =>
                         spoken = Object.keys(c.languages).map((key) => c.languages[key])
                     }
 
-                    console.log(`${c.name.common} speaks ${spoken}`)
+                    // console.log(`${c.name.common} speaks ${spoken}`)
 
                     const Country =
                     {
@@ -51,29 +51,46 @@ const App = () =>
             })
     }
 
-    console.log(`search's value after: ${search}`)
+    // console.log(`search's value after: ${search}`)
     useEffect(hook, [])
 
     const handleSearch = (event) =>
     {
-        console.log(`Typed: ${event.target.value}`)
-        console.log(`search: ${search}`)
+        // console.log(`Typed: ${event.target.value}`)
+        // console.log(`search: ${search}`)
         setSearch(event.target.value)
-        //console.log(searchedCountries)
+        // console.log(searchedCountries)
         queryCountries(event.target.value)  // So that we don't lag behind by using search's state.
     }
     
     // Look for all countries that contain the string that was entered.
     const queryCountries = (query) =>
     {
-        console.log(`search's value when querying: ${search}`)
-        // Using filter is what's needed. Array.map() creates a new array
-        // based on the return value of the callback function.
-        const matchingCountries = allCountries.filter((c) => 
+        let newQuery = String(query)
+        const queryLength = newQuery.length
+        console.log(`last character in query is: ${newQuery[queryLength-1]}`)
+
+        let matchingCountries = []
+        if (newQuery[queryLength-1] === '\\')
         {
-            //console.log(c)
-            return c.name.toLowerCase().includes(query.toLowerCase())
-        })
+            newQuery = String(query).slice(0, queryLength-1)
+            matchingCountries = allCountries.filter((c) =>
+            {
+                return String(c.name).toLowerCase() === newQuery
+            })
+        }
+        else
+        {
+            // console.log(`search's value when querying: ${search}`)
+
+            // Using filter is what's needed. Array.map() creates a new array
+            // based on the return value of the callback function.
+            matchingCountries = allCountries.filter((c) => 
+            {
+                return String(c.name).toLowerCase().includes(newQuery.toLowerCase())
+            })
+        }
+        
         setSearchedCountries(matchingCountries)
     }
 
