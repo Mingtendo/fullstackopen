@@ -17,18 +17,30 @@ const App = () =>
             .then((countryData) =>
             {
                 const countriesRawData = countryData
-                //console.log(countriesRawData)
+                console.log(countriesRawData)
                 const countriesNecessaryData = countriesRawData.map((c) =>
                 {
                     //console.dir(c)
-                    //console.log(c.name.common)
+                    console.log(c.name.common)
                     //console.log(c.capital)
+                    console.log(c.languages)
+
+                    let spoken = []
+                    
+                    if (c.languages !== undefined)
+                    {
+                        // How to get values of something that looks like a dict.
+                        spoken = Object.keys(c.languages).map((key) => c.languages[key])
+                    }
+
+                    console.log(`${c.name.common} speaks ${spoken}`)
+
                     const Country =
                     {
                         name: c.name.common,
                         capitals: c.capital,
                         area: c.area,
-                        languages: c.languages,
+                        languages: spoken,
                         flag: c.flags.png
                     }
 

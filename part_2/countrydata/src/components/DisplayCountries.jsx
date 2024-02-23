@@ -16,11 +16,22 @@ const CountryDetails = (props) =>
             capital: {props.country.capitals} <br />
             area: {props.country.area} <br />
         </div>
+        <div>
+            languages: <br />
+            <ul>
+                {props.country.languages.map((lan) =>
+                    {
+                        return <li key={lan}>{lan}</li>
+                    })
+                }
+            </ul>
+        </div>
         </>
         
     )
 }
 
+// Decides what to render when fed a list of countries.
 const DisplayCountries = (props) =>
 {
     console.log(`length of searched countries: ${props.countries.length}`)
@@ -43,7 +54,8 @@ const DisplayCountries = (props) =>
         
         return (
             <ul>
-                {props.countries.map((c) =>
+                {
+                    props.countries.map((c) =>
                     {
                        return <CountryMany key={c.name} name={c.name} />
                     })
@@ -55,6 +67,7 @@ const DisplayCountries = (props) =>
     else if (props.countries.length === 1)
     {
         console.log("Displaying all basic info")
+        console.log(`Sole country: ${props.countries[0]}, ${typeof props.countries[0].languages}`)
         
         return (
             <CountryDetails country={props.countries[0]} />
