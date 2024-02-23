@@ -59,8 +59,8 @@ const App = () =>
         console.log(`Typed: ${event.target.value}`)
         console.log(`search: ${search}`)
         setSearch(event.target.value)
-        console.log(searchedCountries)
-        queryCountries(event.target.value)
+        //console.log(searchedCountries)
+        queryCountries(event.target.value)  // So that we don't lag behind by using search's state.
     }
     
     // Look for all countries that contain the string that was entered.

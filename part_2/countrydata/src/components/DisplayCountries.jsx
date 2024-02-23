@@ -27,6 +27,7 @@ const CountryDetails = (props) =>
                 }
             </ul>
         </div>
+        <img src={props.country.flag} />
         </>
         
     )
