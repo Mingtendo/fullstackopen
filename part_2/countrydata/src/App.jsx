@@ -18,7 +18,7 @@ const App = () =>
             {
                 const countriesRawData = countryData
                 console.log(countriesRawData)
-                const countriesNecessaryData = countriesRawData.map((c) =>
+                const countriesNecessaryData = countriesRawData.map((c, index) =>
                 {
                     // console.dir(c)
                     // console.log(c.name.common)
@@ -34,15 +34,18 @@ const App = () =>
                         spoken = Object.keys(c.languages).map((key) => c.languages[key])
                     }
 
-                    // console.log(`${c.name.common} speaks ${spoken}`)
+                    console.log(`${c.name.common} has id ${index}`)
+                    console.log(`index has type ${typeof index}`)
 
                     const Country =
                     {
-                        name: c.name.common,
-                        capitals: c.capital,
-                        area: c.area,
+                        id: Number(index),
+                        name: String(c.name.common),
+                        capitals: String(c.capital),
+                        area: Number(c.area),
                         languages: spoken,
-                        flag: c.flags.png
+                        flag: c.flags.png,
+                        display: false
                     }
 
                     return Country
@@ -93,6 +96,14 @@ const App = () =>
         }
         
         setSearchedCountries(matchingCountries)
+    }
+
+    const toggleShowCountry = (id) =>
+    {
+        const country = searchedCountries.find(c => c.id === id)
+        const changedCountry = {...country, display: !country.display}
+
+        // TODO: integrate this somehow to display the country.
     }
 
   return (
