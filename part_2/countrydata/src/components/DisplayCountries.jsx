@@ -19,7 +19,8 @@ const CountryDetails = (props) =>
         <div>
             languages: <br />
             <ul>
-                {props.country.languages.map((lan) =>
+                {
+                    props.country.languages.map((lan) =>
                     {
                         return <li key={lan}>{lan}</li>
                     })

@@ -30,6 +30,7 @@ const App = () =>
                     if (c.languages !== undefined)
                     {
                         // How to get values of something that looks like a dict.
+                        // Remember, .map only works on arrays.
                         spoken = Object.keys(c.languages).map((key) => c.languages[key])
                     }
 
@@ -59,11 +60,11 @@ const App = () =>
         console.log(`search: ${search}`)
         setSearch(event.target.value)
         console.log(searchedCountries)
-        queryCountries()
+        queryCountries(event.target.value)
     }
     
     // Look for all countries that contain the string that was entered.
-    const queryCountries = () =>
+    const queryCountries = (query) =>
     {
         console.log(`search's value when querying: ${search}`)
         // Using filter is what's needed. Array.map() creates a new array
@@ -71,7 +72,7 @@ const App = () =>
         const matchingCountries = allCountries.filter((c) => 
         {
             //console.log(c)
-            return c.name.toLowerCase().includes(search.toLowerCase())
+            return c.name.toLowerCase().includes(query.toLowerCase())
         })
         setSearchedCountries(matchingCountries)
     }
