@@ -1,12 +1,3 @@
-const CountryMany = (props) =>
-{
-    return (
-        <div>
-            {props.name} <br />
-        </div>
-    )
-}
-
 const CountryDetails = (props) =>
 {
     return (
@@ -29,15 +20,37 @@ const CountryDetails = (props) =>
         </div>
         <img src={props.country.flag} />
         </>
-        
+    )
+}
+
+const CountryMany = ({name, showButton, details}) =>
+{
+    const displayView = !details.display ? 'show' : 'hide'
+
+    if (details.display)
+    {
+        return (
+            <div>
+                {name} <button onClick={showButton}>{displayView}</button> <br />
+                <CountryDetails country={details} />
+            </div>
+            
+        )
+    }
+    // Default return just the name
+    return (
+        <div>
+            {name} <button onClick={showButton}>{displayView}</button> <br />
+        </div>
     )
 }
 
 // Decides what to render when fed a list of countries.
-const DisplayCountries = (props) =>
+// The names of extracted parameters have to match those that were passed in.
+const DisplayCountries = ({countries, showButtonFunc}) =>
 {
-    console.log(`length of searched countries: ${props.countries.length}`)
-    if (props.countries.length > 10)
+    console.log(`length of searched countries: ${countries.length}`)
+    if (countries.length > 10)
     {
         console.log("More than 10 countries, be more specific")
         
@@ -48,7 +61,7 @@ const DisplayCountries = (props) =>
         )
        
     } 
-    else if (1 < props.countries.length && props.countries.length <= 10)
+    else if (1 < countries.length && countries.length <= 10)
     {
         // If we have 2-10 countries, display only the countries' names. The names are already
         // filtered and given to us as a property.
@@ -57,22 +70,22 @@ const DisplayCountries = (props) =>
         return (
             <ul>
                 {
-                    props.countries.map((c) =>
+                    countries.map((c) =>
                     {
-                       return <CountryMany key={c.name} name={c.name} />
+                       return <CountryMany key={c.id} name={c.name} showButton={() => showButtonFunc(c.id)} details={c} />
                     })
                 }
             </ul>
         )
        
     }
-    else if (props.countries.length === 1)
+    else if (countries.length === 1)
     {
         console.log("Displaying all basic info")
-        console.log(`Sole country: ${props.countries[0]}, ${typeof props.countries[0].languages}`)
+        // console.log(`Sole country: ${countries[0]}, ${typeof countries[0].languages}`)
         
         return (
-            <CountryDetails country={props.countries[0]} />
+            <CountryDetails country={countries[0]} />
         )
        
     }

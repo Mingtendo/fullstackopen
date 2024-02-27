@@ -34,8 +34,8 @@ const App = () =>
                         spoken = Object.keys(c.languages).map((key) => c.languages[key])
                     }
 
-                    console.log(`${c.name.common} has id ${index}`)
-                    console.log(`index has type ${typeof index}`)
+                    // console.log(`${c.name.common} has id ${index}`)
+                    // console.log(`index has type ${typeof index}`)
 
                     const Country =
                     {
@@ -101,7 +101,12 @@ const App = () =>
     const toggleShowCountry = (id) =>
     {
         const country = searchedCountries.find(c => c.id === id)
+        console.log(`${country.name} toggled`)
         const changedCountry = {...country, display: !country.display}
+        // Change the display status of the country
+        // Because we only change the status in the searchedCountries array, when we search for it
+        // again it should not be displayed by default.
+        setSearchedCountries(searchedCountries.map(c => c.id !== id ? c : changedCountry))
 
         // TODO: integrate this somehow to display the country.
     }
@@ -112,7 +117,7 @@ const App = () =>
 
         <SearchBar searchtext={search} handler={handleSearch} />
         
-        <DisplayCountries countries={searchedCountries} />
+        <DisplayCountries countries={searchedCountries} showButtonFunc={toggleShowCountry} />
     </div>
   )
 }
