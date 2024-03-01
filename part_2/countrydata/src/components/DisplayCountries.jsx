@@ -19,6 +19,9 @@ const CountryDetails = (props) =>
             </ul>
         </div>
         <img src={props.country.flag} />
+        <div>
+            <h4>Weather in {props.country.name}</h4>
+        </div>
         </>
     )
 }

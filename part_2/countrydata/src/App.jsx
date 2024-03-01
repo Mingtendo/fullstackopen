@@ -2,6 +2,7 @@ import React, {useEffect, useState } from 'react'
 import SearchBar from './components/SearchBar'
 import DisplayCountries from './components/DisplayCountries.jsx'
 import ServerService from './services/server'
+import weatherservice from './services/weatherservice.js'
 
 const App = () => 
 {
@@ -16,13 +17,17 @@ const App = () =>
             .getAll()
             .then((countryData) =>
             {
-                const countriesRawData = countryData
+                // Make something into an Array type.
+                const countriesRawData = Array.from(countryData)
                 console.log(countriesRawData)
+                // .map(element, index in array)
                 const countriesNecessaryData = countriesRawData.map((c, index) =>
                 {
                     // console.dir(c)
                     // console.log(c.name.common)
                     // console.log(c.capital)
+                    // console.log(`latitude: ${c.latlng[0]}`)
+                    // console.log(`longitude: ${c.latlng[1]}`)
                     // console.log(c.languages)
 
                     let spoken = []
@@ -43,6 +48,8 @@ const App = () =>
                         name: String(c.name.common),
                         capitals: String(c.capital),
                         area: Number(c.area),
+                        latitude: Number(c.latlng[0]),
+                        longitude: Number(c.latlng[1]),
                         languages: spoken,
                         flag: c.flags.png,
                         display: false
@@ -107,19 +114,31 @@ const App = () =>
         // Because we only change the status in the searchedCountries array, when we search for it
         // again it should not be displayed by default.
         setSearchedCountries(searchedCountries.map(c => c.id !== id ? c : changedCountry))
-
-        // TODO: integrate this somehow to display the country.
     }
 
-  return (
-    <div>
-        <h2>Find Countries</h2>
-
-        <SearchBar searchtext={search} handler={handleSearch} />
+    const fetchWeather = (id) =>
+    {
+        const countryToGrab = searchedCountries.find(c => c.id === id)
         
-        <DisplayCountries countries={searchedCountries} showButtonFunc={toggleShowCountry} />
-    </div>
-  )
+        weatherservice
+            .getWeatherAt(countryToGrab.latitude, countryToGrab.longitude)
+            .then(weatherData =>
+            {
+                console.dir(`The weather in ${countryToGrab.name} is ${weatherData}`)
+                const countryWeatherUpdated = {...countryToGrab, weather: weatherData}
+                setSearchedCountries(searchedCountries.map(c => c.id !== id ? c : countryWeatherUpdated))
+            })
+    }
+
+    return (
+        <div>
+            <h2>Find Countries</h2>
+
+            <SearchBar searchtext={search} handler={handleSearch} />
+        
+            <DisplayCountries countries={searchedCountries} showButtonFunc={toggleShowCountry} />
+        </div>
+    )
 }
 
 export default App
