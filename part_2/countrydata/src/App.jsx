@@ -73,6 +73,24 @@ const App = () =>
         // console.log(searchedCountries)
         queryCountries(typedIn)  // So that we don't lag behind by using search's state.
     }
+
+    // Fetch the weather for the country
+    const fetchWeather = (id) =>
+    {
+        const countryToGrab = searchedCountries.find(c => c.id === id)
+        let incomingData = null
+        
+        weatherservice
+            .getWeatherAt(countryToGrab.latitude, countryToGrab.longitude)
+            .then(weatherData =>
+            {
+                incomingData = weatherData
+            })
+
+        console.dir(`The weather in ${countryToGrab.name} is ${incomingData}`)
+        const countryWeatherUpdated = {...countryToGrab, weather: incomingData}
+        return countryWeatherUpdated
+    }
     
     // Look for all countries that contain the string that was entered.
     const queryCountries = (query) =>
@@ -101,6 +119,10 @@ const App = () =>
                 return String(c.name).toLowerCase().includes(newQuery.toLowerCase())
             })
         }
+
+        // Get the weather report for each country.
+
+        matchingCountries = matchingCountries.map(c => fetchWeather(c.id))
         
         setSearchedCountries(matchingCountries)
     }
@@ -114,20 +136,6 @@ const App = () =>
         // Because we only change the status in the searchedCountries array, when we search for it
         // again it should not be displayed by default.
         setSearchedCountries(searchedCountries.map(c => c.id !== id ? c : changedCountry))
-    }
-
-    const fetchWeather = (id) =>
-    {
-        const countryToGrab = searchedCountries.find(c => c.id === id)
-        
-        weatherservice
-            .getWeatherAt(countryToGrab.latitude, countryToGrab.longitude)
-            .then(weatherData =>
-            {
-                console.dir(`The weather in ${countryToGrab.name} is ${weatherData}`)
-                const countryWeatherUpdated = {...countryToGrab, weather: weatherData}
-                setSearchedCountries(searchedCountries.map(c => c.id !== id ? c : countryWeatherUpdated))
-            })
     }
 
     return (
