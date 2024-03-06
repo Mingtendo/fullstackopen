@@ -23,7 +23,7 @@ const App = () =>
                 // .map(element, index in array)
                 const countriesNecessaryData = countriesRawData.map((c, index) =>
                 {
-                    // console.dir(c)
+                    // console.dir(c)   // View contents of an object
                     // console.log(c.name.common)
                     // console.log(c.capital)
                     // console.log(`latitude: ${c.latlng[0]}`)
@@ -77,14 +77,16 @@ const App = () =>
     // Fetch the weather for the country
     const fetchWeather = (id) =>
     {
-        const countryToGrab = searchedCountries.find(c => c.id === id)
+        const countryToGrab = allCountries.find(c => c.id === id)
+        console.log(`${countryToGrab.name}'s lat & lng: ${countryToGrab.latitude} & ${countryToGrab.longitude}`)
         let incomingData = null
         
         weatherservice
             .getWeatherAt(countryToGrab.latitude, countryToGrab.longitude)
             .then(weatherData =>
             {
-                incomingData = weatherData
+                incomingData = Object(weatherData.data)
+                console.dir(incomingData)
             })
 
         console.dir(`The weather in ${countryToGrab.name} is ${incomingData}`)
@@ -122,8 +124,15 @@ const App = () =>
 
         // Get the weather report for each country.
 
-        matchingCountries = matchingCountries.map(c => fetchWeather(c.id))
-        
+        matchingCountries = matchingCountries.map((c) => 
+        {
+            // console.log(`${c.name} has id: ${c.id}`)
+            return fetchWeather(c.id)
+        })
+        for (let i = 0; i < matchingCountries.length; i++)
+        {
+            console.log(`${matchingCountries[i].name}'s weather is ${matchingCountries[i].weather}`)
+        }
         setSearchedCountries(matchingCountries)
     }
 
