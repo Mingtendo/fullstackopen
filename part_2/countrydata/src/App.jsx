@@ -79,19 +79,32 @@ const App = () =>
     {
         const countryToGrab = allCountries.find(c => c.id === id)
         console.log(`${countryToGrab.name}'s lat & lng: ${countryToGrab.latitude} & ${countryToGrab.longitude}`)
-        let incomingData = null
         
-        weatherservice
+        // Sadly, you cannot extract data from a promise without using async/await. So it must
+        // be used in a callback function and then stored in a state.
+        const stupidPromise = weatherservice
             .getWeatherAt(countryToGrab.latitude, countryToGrab.longitude)
-            .then(weatherData =>
+            .then((data) => 
             {
-                incomingData = Object(weatherData.data)
-                console.dir(incomingData)
-            })
+                const incomingData = data
+                // console.log(`incomingData: ${incomingData}`)
+                // Fetching the minimum weather data to be displayed.
+                const filteredWeatherData = 
+                {
+                    temp: Number(incomingData.main.temp)-273.15,
+                    wind: Number(incomingData.wind.speed),
+                    cond: String(incomingData.weather[0].description)
+                }
 
-        console.dir(`The weather in ${countryToGrab.name} is ${incomingData}`)
-        const countryWeatherUpdated = {...countryToGrab, weather: incomingData}
-        return countryWeatherUpdated
+                // console.log(`temp: ${filteredWeatherData.temp}`)
+                // console.log(`wind: ${filteredWeatherData.wind}`)
+                // console.log(`cond: ${filteredWeatherData.cond}`)
+
+                const countryWeatherUpdated = {...countryToGrab, weather: filteredWeatherData}
+                console.log(countryWeatherUpdated)
+                // return countryWeatherUpdated
+                setSearchedCountries(searchedCountries.concat(countryWeatherUpdated))
+            })
     }
     
     // Look for all countries that contain the string that was entered.
@@ -124,16 +137,18 @@ const App = () =>
 
         // Get the weather report for each country.
 
-        matchingCountries = matchingCountries.map((c) => 
+        matchingCountries.map((c) => 
         {
             // console.log(`${c.name} has id: ${c.id}`)
-            return fetchWeather(c.id)
+            fetchWeather(c.id)
+            // const d = fetchWeather(c.id)
+            // console.log(`fetched weather for ${c.name}: ${d}`)
+            // console.dir(d)
+            // return d
         })
-        for (let i = 0; i < matchingCountries.length; i++)
-        {
-            console.log(`${matchingCountries[i].name}'s weather is ${matchingCountries[i].weather}`)
-        }
-        setSearchedCountries(matchingCountries)
+
+        // Don't set matchingCountries into state of searchedCountries because of the stupid-way that
+        // promises work. So allegedly, the country's weather should be set in searchedCountries.
     }
 
     const toggleShowCountry = (id) =>

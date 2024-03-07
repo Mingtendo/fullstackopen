@@ -75,7 +75,8 @@ const DisplayCountries = ({countries, showButtonFunc}) =>
                 {
                     countries.map((c) =>
                     {
-                       return <CountryMany key={c.id} name={c.name} showButton={() => showButtonFunc(c.id)} details={c} />
+                        console.log(c)
+                        return <CountryMany key={c.id} name={c.name} showButton={() => showButtonFunc(c.id)} details={c} />
                     })
                 }
             </ul>
