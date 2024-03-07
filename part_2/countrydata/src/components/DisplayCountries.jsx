@@ -20,7 +20,9 @@ const CountryDetails = (props) =>
         </div>
         <img src={props.country.flag} />
         <div>
-            <h4>Weather in {props.country.name}</h4>
+            <h4>Weather in {props.country.capitals}</h4>
+            temperature {props.country.weather.temp} Celcius <br />
+            wind {props.country.weather.wind}
         </div>
         </>
     )
