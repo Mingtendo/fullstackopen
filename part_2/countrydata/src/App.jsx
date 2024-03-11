@@ -68,8 +68,8 @@ const App = () =>
         // console.log(`search: ${search}`)
         setSearch(typedIn)
         queryCountries(typedIn)           // So that we don't lag behind by using search's state.
-        console.log(`searchedCountries after awaiting for queryCountries: ${searchedCountries}`)       // Will always be one behind, as this will be executed synchronously.
-        console.dir(searchedCountries)
+        // console.log(`searchedCountries after awaiting for queryCountries: ${searchedCountries}`)       // Will always be one behind, as this will be executed synchronously.
+        // console.dir(searchedCountries)
         // await fetchWeather()
     }
 
@@ -78,26 +78,33 @@ const App = () =>
     // TODO: Fetch the data automatically when there is only one country to display.
     const fetchWeather = (country) =>
     {
+        console.log(`name of country to fetch weather for: ${country.name}`)
         weatherservice
         .getWeatherAt(country.latitude, country.longitude)
         .then((data) => 
         {
             const incomingData = data
-            // console.log(`incomingData: ${incomingData}`)
+            console.dir(incomingData)
             // Fetching the minimum weather data to be displayed.
             const filteredWeatherData = 
             {
                 temp: Number(incomingData.main.temp),
                 wind: Number(incomingData.wind.speed),
-                cond: String(incomingData.weather[0].description)
+                cond: String(incomingData.weather[0].description),
+                icon: String(incomingData.weather[0].icon)
             }
 
             // console.log(`temp: ${filteredWeatherData.temp}`)
 
             const countryWeatherUpdated = {...country, weather: filteredWeatherData}
             console.log(countryWeatherUpdated)
-            // return countryWeatherUpdated
-            const updated = searchedCountries.map(c => c.id !== country.id ? c : countryWeatherUpdated)
+            
+            let updated = searchedCountries.map(c => c.id !== country.id ? c : countryWeatherUpdated)
+            console.log(`length of updated after search: ${updated.length}`)
+            if (updated.length === 0)
+            {
+                updated = countryWeatherUpdated
+            }
             console.log("updated ------------------")
             console.dir(updated)
             setSearchedCountries(updated)

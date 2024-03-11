@@ -1,5 +1,9 @@
 const CountryDetails = (props) =>
 {
+    const icon = props.country.weather.icon
+    const iconBaseURL = "https://openweathermap.org/img/wn/"
+    const iconSrc = iconBaseURL+icon+"@2x.png"
+
     return (
         <>
         <h3>{props.country.name}</h3>
@@ -18,11 +22,15 @@ const CountryDetails = (props) =>
                 }
             </ul>
         </div>
+        <br />
         <img src={props.country.flag} />
         <div>
             <h4>Weather in {props.country.capitals}</h4>
-            {/* temperature {props.country.weather.temp} Celcius <br />
-            wind {props.country.weather.wind} */}
+            temperature {props.country.weather.temp} Celcius 
+            <br />
+            <img src={iconSrc}/> 
+            <br />
+            wind {props.country.weather.wind}
         </div>
         </>
     )
@@ -77,7 +85,7 @@ const DisplayCountries = ({countries, showButtonFunc}) =>
                 {
                     countries.map((c) =>
                     {
-                        console.log(c)
+                        // console.log(c)
                         return <CountryMany key={c.id} name={c.name} showButton={() => showButtonFunc(c.id)} details={c} />
                     })
                 }
