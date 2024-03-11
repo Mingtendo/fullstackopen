@@ -61,59 +61,58 @@ const App = () =>
     // console.log(`search's value after: ${search}`)
     useEffect(hook, [])
 
-    const handleSearch = async (event) =>
+    const handleSearch = (event) =>
     {
         const typedIn = String(event.target.value)
         // console.log(`Typed: ${event.target.value}`)
         // console.log(`search: ${search}`)
         setSearch(typedIn)
-        await queryCountries(typedIn)           // So that we don't lag behind by using search's state.
+        queryCountries(typedIn)           // So that we don't lag behind by using search's state.
         console.log(`searchedCountries after awaiting for queryCountries: ${searchedCountries}`)       // Will always be one behind, as this will be executed synchronously.
         console.dir(searchedCountries)
         // await fetchWeather()
     }
 
     // Fetch the weather for the country
-    // const fetchWeather = async () =>
-    // {
-        
-    //     queryCountries(query).then((c) => 
-    //     {
-    //         weatherservice
-    //         .getWeatherAt(c.latitude, c.longitude)
-    //         .then((data) => 
-    //         {
-    //             const incomingData = data
-    //             // console.log(`incomingData: ${incomingData}`)
-    //             // Fetching the minimum weather data to be displayed.
-    //             const filteredWeatherData = 
-    //             {
-    //                 temp: Number(incomingData.main.temp),
-    //                 wind: Number(incomingData.wind.speed),
-    //                 cond: String(incomingData.weather[0].description)
-    //             }
+    // TODO: Fetch the data only when the user clicks on show.
+    // TODO: Fetch the data automatically when there is only one country to display.
+    const fetchWeather = (country) =>
+    {
+        weatherservice
+        .getWeatherAt(country.latitude, country.longitude)
+        .then((data) => 
+        {
+            const incomingData = data
+            // console.log(`incomingData: ${incomingData}`)
+            // Fetching the minimum weather data to be displayed.
+            const filteredWeatherData = 
+            {
+                temp: Number(incomingData.main.temp),
+                wind: Number(incomingData.wind.speed),
+                cond: String(incomingData.weather[0].description)
+            }
 
-    //             // console.log(`temp: ${filteredWeatherData.temp}`)
+            // console.log(`temp: ${filteredWeatherData.temp}`)
 
-    //             const countryWeatherUpdated = {...countryToGrab, weather: filteredWeatherData}
-    //             console.log(countryWeatherUpdated)
-    //             // return countryWeatherUpdated
-    //             const updated = searchedCountries.map(c => c.id !== id ? c : countryWeatherUpdated)
-    //             console.log("updated ------------------")
-    //             console.dir(updated)
-    //             setSearchedCountries(updated)
-    //         })
-    //     })
-    // }
+            const countryWeatherUpdated = {...country, weather: filteredWeatherData}
+            console.log(countryWeatherUpdated)
+            // return countryWeatherUpdated
+            const updated = searchedCountries.map(c => c.id !== country.id ? c : countryWeatherUpdated)
+            console.log("updated ------------------")
+            console.dir(updated)
+            setSearchedCountries(updated)
+        })
+    }
     
     // Look for all countries that contain the string that was entered.
-    const queryCountries = async (query) =>
+    const queryCountries = (query) =>
     {
         let newQuery = String(query)
         const queryLength = newQuery.length
         // console.log(`last character in query is: ${newQuery[queryLength-1]}`)
 
         let matchingCountries = []
+        // Looking for exact match.
         if (newQuery[queryLength-1] === '\\')
         {
             newQuery = String(query).slice(0, queryLength-1)
@@ -121,6 +120,7 @@ const App = () =>
             {
                 return String(c.name).toLowerCase() === newQuery
             })
+            fetchWeather(matchingCountries[0])
         }
         else
         {
@@ -132,9 +132,18 @@ const App = () =>
             {
                 return String(c.name).toLowerCase().includes(newQuery.toLowerCase())
             })
+            if (matchingCountries.length === 1)
+            {
+                // Must fetch weather data before display
+                console.log(`there is only one country: ${matchingCountries[0].name}`)
+                fetchWeather(matchingCountries[0])
+            }
+            else
+            {
+                // Store the countries' data.
+                setSearchedCountries(matchingCountries)
+            }
         }
-        // Store the countries' data.
-        setSearchedCountries(matchingCountries)
     }
 
     const toggleShowCountry = (id) =>
@@ -145,8 +154,9 @@ const App = () =>
         // Change the display status of the country
         // Because we only change the status in the searchedCountries array, when we search for it
         // again it should not be displayed by default.
-        setSearchedCountries(searchedCountries.map(c => c.id !== id ? c : changedCountry))
-        // fetchWeather(id)
+
+        // setSearchedCountries(searchedCountries.map(c => c.id !== id ? c : changedCountry))
+        fetchWeather(changedCountry)
     }
 
     return (
