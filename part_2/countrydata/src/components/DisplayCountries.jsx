@@ -28,7 +28,7 @@ const CountryDetails = (props) =>
             <h4>Weather in {props.country.capitals}</h4>
             temperature {props.country.weather.temp} Celcius 
             <br />
-            <img src={iconSrc}/> 
+            <img src={iconSrc} alt={props.country.weather.cond} /> 
             <br />
             wind {props.country.weather.wind}
         </div>
